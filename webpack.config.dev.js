@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const DotEnv = require('dotenv-webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+	.BundleAnalyzerPlugin;
 
 module.exports = {
 	// Entry nos permite decir el punto de entrada de nuestra aplicación
@@ -14,7 +16,8 @@ module.exports = {
 		assetModuleFilename: 'assets/images/[hash][ext][query]',
 	},
 	mode: 'development',
-	watch: true,
+	//watch: true,
+	devtool: 'source-map',
 	resolve: {
 		// Aqui ponemos las extensiones que tendremos en nuestro proyecto y que queremos que webpack reconozca
 		extensions: ['.js'],
@@ -84,5 +87,12 @@ module.exports = {
 			],
 		}),
 		new DotEnv(),
+		new BundleAnalyzerPlugin(),
 	],
+	devServer: {
+		contentBase: path.join(__dirname, 'dist'),
+		compress: true,
+		historyApiFallback: true,
+		port: 3006,
+	},
 };
